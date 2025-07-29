@@ -1,0 +1,1 @@
+pm2 start "/home/pi/dndbot/bot.py" --interpreter "/home/pi/dndbot/venv/bin/python3.10" --name dndbot;
