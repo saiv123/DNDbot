@@ -68,7 +68,7 @@ def colorVal(roll_total, dice_sides, dice_rolls):
 async def on_ready():
     print("Ready")
 
-def format_roll_result(roll_result, dice_str, user_name, user_avatar):
+def format_roll_result(roll_result, dice_str, user_name, user_avatar, user_id):
     """Format the dice roll result into an embed"""
     rolls, modifier, max_sides = roll_result[1], roll_result[2], roll_result[3]
     total = roll_result[0]
@@ -101,10 +101,10 @@ def format_roll_result(roll_result, dice_str, user_name, user_avatar):
     
     # Determine footer text based on roll quality
     if base_roll == 1:
-        increaseValue(int(user_name.id), Dice.Natone)
+        increaseValue(int(user_id), Dice.Natone)
         footer = f"{user_name} rolled a natural 1"
     elif base_roll == max_sides:
-        increaseValue(int(user_name.id), Dice.Crit)
+        increaseValue(int(user_id), Dice.Crit)
         footer = f"{user_name} rolled a natural {max_sides}"
     else:
         quality = "amazing" if max_sides - base_roll < max_sides * 0.5 else "poor"
@@ -137,7 +137,7 @@ async def on_message_create(event: interactions.events.MessageCreate):
             )
             await event.message.reply(embed=error_embed)
         else:
-            result_embed = format_roll_result(roll, msg, event.message.author.username, event.message.author.avatar.url)
+            result_embed = format_roll_result(roll, msg, event.message.author.username, event.message.author.avatar.url, event.message.author.id)
             await event.message.delete()
             await event.message.channel.send(embed=result_embed, silent=True)
 
